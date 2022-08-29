@@ -30,8 +30,10 @@ export class SignupComponent {
     this.sessionService.signupApi(user).subscribe(res => {
         if(res){
           this.tsService.success("Signup", "", { timeOut: 3000 });
-          this.router.navigateByUrl("/login")      
+          this.router.navigateByUrl("/user/login")      
         }
+    }, err=>{
+      
     })
     //
   }

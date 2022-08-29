@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,7 +10,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRoles(): Observable<any>{
+
+  getAllRoles(): Observable<any> {
     return this.http.get(environment.url + "admin/role")
   }
 
@@ -24,5 +25,9 @@ export class UserService {
 
   getRoleByIdApi(roleId:any):Observable<any>{
     return this.http.get(environment.url+"admin/role/"+roleId)
+  }
+
+  updateRole(role:any):Observable<any>{
+    return this.http.put(environment.url+"admin/role",role)
   }
 }

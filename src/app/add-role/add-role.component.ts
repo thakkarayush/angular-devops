@@ -10,17 +10,17 @@ import { UserService } from '../user.service';
 })
 export class AddRoleComponent implements OnInit {
 
-  constructor(private userService:UserService, private toastr:ToastrService, private route:Router) { }
+  constructor(private userService: UserService,private toastr:ToastrService,private route:Router) { }
   roleName = ""
   ngOnInit(): void {
   }
 
-  addRole(){
-    let role = { "roleName":this.roleName }
-    this.userService.addRole(role).subscribe(resp =>{
+  addRole() {
+    let role = { "roleName": this.roleName }
+    this.userService.addRole(role).subscribe(resp => {
       this.toastr.success("Role Added");
-      this.route.navigateByUrl("/home")
+      this.route.navigateByUrl("/user/home")
+      
     })
   }
-
 }
