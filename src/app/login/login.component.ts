@@ -11,33 +11,44 @@ import { SessionService } from '../session.service';
 })
 export class LoginComponent implements OnInit {
 
-  email=""
-  password=""
+  email = ""
+  password = ""
 
-  constructor(private sessionService: SessionService,private toastr:ToastrService,private router:Router,private authTokenService:AuthTokenServiceService) { }
+  constructor(private sessionService: SessionService, private toastr: ToastrService, private router: Router, private authTokenService: AuthTokenServiceService) { }
 
   ngOnInit(): void {
   }
 
-  login(){
-    let user = {"email":this.email,"password":this.password}
+  login() {
+    let user = { "email": this.email, "password": this.password }
     this.sessionService.loginApi(user).subscribe(resp => {
-      
-      //json
+
+      //json 
       console.log(resp.data.user);
       let authToken = resp.data.user.authToken
-      localStorage.setItem("authToken",authToken)
-      
-      this.toastr.success("Login done")
+      localStorage.setItem("authToken", authToken)
+      localStorage.setItem("userId",resp.data.user.userId)
+      localStorage.setItem("email",resp.data.user.email)
+      localStorage.setItem("firstName",resp.data.user.firstName)
+      this.toastr.success("Login done"+resp.data.user.authToken)
+
       this.authTokenService.authToken = resp.data.user.authToken
-      if(resp.data.user.role.roleName=="user"){
+      this.authTokenService.userId = resp.data.user.userId 
+      if (resp.data.user.role.roleName == "user") {
+        this.toastr.success("Login done "+resp.data.user.authToken)
         this.router.navigateByUrl("/user/home")
-      }else if(resp.data.user.role.roleName=="admin"){
+      } else if (resp.data.user.role.roleName == "admin") {
+        this.toastr.success("Login done "+resp.data.user.authToken)
         this.router.navigateByUrl("/dashboard")
+      } else {
+        this.toastr.error("User type not found...")
       }
-    },err => {
-      this.toastr.error("Inavlid Credentials...","401")
+
+
+    }, err => {
+      this.toastr.error("Invalid Credentials....", "401")
     })
   }
+
 
 }
